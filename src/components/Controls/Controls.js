@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import {createStyles, makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
 import EndCallButton from './EndCallButton/EndCallButton';
@@ -7,6 +7,8 @@ import ToggleVideoButton from './ToggleVideoButton/ToggleVideoButton';
 import ToggleScreenShareButton from './ToogleScreenShareButton/ToggleScreenShareButton';
 import useIsUserActive from './useIsUserActive/useIsUserActive';
 import useRoomState from '../../hooks/useRoomState/useRoomState';
+import ShareLinkButton from './ShareLinkButton/ShareLinkButton';
+import ChatVideo from './ChatVideo/ChatVideo';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -49,6 +51,8 @@ export default function Controls() {
                 <>
                     <ToggleScreenShareButton disabled={isReconnecting}/>
                     <EndCallButton/>
+                    <ShareLinkButton/>
+                    <ChatVideo/>
                 </>
             )}
         </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Redirect, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Redirect, Switch, Route} from 'react-router-dom';
 import './index.css';
 import App from './App';
 import AppStateProvider, {useAppState} from './state';
@@ -13,6 +13,11 @@ import {MuiThemeProvider} from '@material-ui/core/styles';
 import theme from "./theme";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import config from './config';
+import { AuthProvider } from './contexts/AuthContext';
+import Chats from './components/Chats';
+import Login from "./components/Login"
+
+
 
 const basePath = config.appBasePath || "/";
 
@@ -32,11 +37,20 @@ const VideoApp = () => {
 
 ReactDOM.render(
     <MuiThemeProvider theme={theme}>
-        <CssBaseline/>
+        {/* <CssBaseline/> */}
         <Router>
+        {/* <AuthProvider>
+          <Switch>
+            <Route path="/chats" component={Chats} />
+            <Route path="/" component={Login} />
+          </Switch>
+        </AuthProvider> */}
             <AppStateProvider>
+            <AuthProvider>
                 <Switch>
-                    <PrivateRoute exact path={basePath}>
+                    <PrivateRoute exact path="/chats" component={Chats} />
+                    <PrivateRoute exact path="/" component={Login} />
+                    <PrivateRoute exact path="/room">
                         <VideoApp/>
                     </PrivateRoute>
                     <PrivateRoute exact path={`${basePath}room/:URLRoomName`}>
@@ -47,6 +61,7 @@ ReactDOM.render(
                     </PrivateRoute>
                     <Redirect to={basePath}/>
                 </Switch>
+                </AuthProvider>
             </AppStateProvider>
         </Router>
     </MuiThemeProvider>,

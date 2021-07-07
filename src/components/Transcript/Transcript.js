@@ -8,6 +8,13 @@ import Grid from "@material-ui/core/Grid";
 import TranscriptItem from "./TranscriptItem/TranscriptItem";
 import useSymblContext from "../../hooks/useSymblContext/useSymblContext";
 import padStart from "lodash-es/padStart";
+import { ChatEngine } from 'react-chat-engine';
+import { useHistory } from 'react-router-dom';
+import {auth} from '../../firebase';
+import { useAuth } from '../../contexts/AuthContext';
+import axios from 'axios';
+import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline';
+import ChatVideo from '../Controls/ChatVideo/ChatVideo';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -16,18 +23,19 @@ const useStyles = makeStyles(() => ({
         alignItems: "center",
     },
     mainContainer: {
-        padding: 12,
-        overflow: "hidden",
-        minWidth: '200px',
-        height: '100%',
+        overflow: 'auto',
+        minWidth: '140px',
+        height: '95vh',
         // maxWidth: '300px',
-        width: '20vw',
+        width: '38vw',
         border: 'none',
         borderRadius: 0,
-        position: 'fixed',
-        background: 'rgb(0, 0, 0, 0.5)',
+        position: 'absolute',
+        top:'0',
+        background: 'rgb(0, 0, 0, 0)',
         right: 0,
-        zIndex: 1500
+        zIndex: 1500,
+        minHeight: '100vh'
     },
     transcriptContainer: {
         overflowY: "auto",
@@ -52,7 +60,8 @@ const useStyles = makeStyles(() => ({
         display: "flex",
         justifyContent: "center",
         paddingBottom: "20px"
-    }
+    },
+
 
 }));
 
@@ -76,30 +85,80 @@ export function TranscriptElement({onSave, width, height, editable = false, tran
             element.scrollTop = element.scrollHeight;
         }
     }, [transcriptItems, width, height, containerRef])
+    const history = useHistory();
+    const {user} = useAuth();
+    const [loading, setLoading] = useState(true);
+    const [showChat,setShowChat] = useState(false) ;
+    
 
+    const getFile = async (url) => {
+        const response = await fetch(url);
+        const data = await response.blob();
+        return new File([data], "userPhoto.jpg", {type: 'image/jpeg'})
+    }
+
+    useEffect(()=>{
+        if(!user) {
+            history.push('/');
+            return;
+        }
+        axios.get('https://api.chatengine.io/users/me/',{
+            headers: {
+                "project-id": process.env.REACT_APP_CHAT_ENGINE_ID,
+                "user-name":user.email,
+                "user-secret":user.uid,
+            }
+        })
+        .then(()=> {
+            setLoading(false);
+        }). catch(()=> {
+            let formdata = new FormData();
+            formdata.append('email', user.email);
+            formdata.append('username', user.email);
+            formdata.append('secret', user.uid);
+
+            getFile(user.photoURL)
+            .then((avatar) => {
+                formdata.append('avatar', avatar, avatar.name);
+                
+                axios.post('https://api.chatengine.io/users/', 
+                formdata,
+                {headers: {"private-key": process.env.REACT_APP_CHAT_ENGINE_KEY}}
+                )
+                    .then(()=> setLoading(false))
+                    .catch((error)=> console.log(error)) 
+            })
+        })
+    }, [user, history]);
+
+
+
+    if(!user || loading) return 'Loading.....'
     return (
-        <Grid container style={{width: w}} className={classes.root}>
-            <Paper id={"transcript-paper"} className={classes.mainContainer}
-                   variant={"outlined"}
-            >
-                <Grid className={classes.transcriptsHeader}>
-                    <Typography variant="h6">
-                        Transcript
-                    </Typography>
-                </Grid>
-                <Grid className={classes.transcriptContainer} ref={containerRef} style={{height: `calc(${h} - 62px)`}}>
-                    {transcriptItems.filter(item => !!item).map(({text, timeDiff, from}, index) => (
-                        <TranscriptItem
-                            key={index} index={index}
-                            description={text}
-                            timeDiff={timeDiff}
-                            from={from}
-                            updateTranscript={onSave}
-                            editable={editable}
-                        />))}
-                </Grid>
-            </Paper>
-        </Grid>
+        
+//  <Grid container style={{width: w}} className={classes.root}>
+//             <Paper id={"transcript-paper"} className={classes.mainContainer}
+//                    variant={"outlined"}>
+<>
+{ showChat && <ChatEngine
+    projectID={process.env.REACT_APP_CHAT_ENGINE_ID}
+     userName={user.email}
+     userSecret={user.uid}
+     height='10vh'
+    
+ />}
+                    <div className={classes.mainContainer}>
+                                <ChatEngine
+                                height="calc(100vh-66px)"
+                                projectID={process.env.REACT_APP_CHAT_ENGINE_ID}
+                                userName={user.email}
+                                userSecret={user.uid}
+                                />
+                                </div>
+                
+           </>
+                // </Paper>
+                // </Grid>
     );
 }
 

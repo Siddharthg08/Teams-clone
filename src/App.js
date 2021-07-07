@@ -12,6 +12,9 @@ import MenuBar from "./components/MenuBar/MenuBar";
 import ClosedCaptions from "./components/ClosedCaptions/ClosedCaptions";
 import {SymblProvider} from "./components/SymblProvider";
 import Controls from "./components/Controls/Controls";
+import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline';
+import Transcript from './components/Transcript/Transcript';
+
 
 const Container = styled('div')({
     display: 'grid',
@@ -53,18 +56,23 @@ function App() {
 
 
     return (
+        <>
+        {/* <ScopedCssBaseline> */}
         <Container style={{height}}>
             <MenuBar/>
             <Main>
                 {roomState === 'disconnected' ? <LocalVideoPreview/> : (
                     <SymblProvider roomName={roomName}>
-                        <Room/>
+                    <Room/>
                         <ClosedCaptions />
                         <Controls/>
                     </SymblProvider>
                 )}
             </Main>
         </Container>
+    {/* </ScopedCssBaseline> */}
+  
+    </>
     );
 }
 

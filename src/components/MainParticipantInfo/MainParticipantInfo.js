@@ -7,6 +7,7 @@ import useIsTrackSwitchedOff from '../../hooks/useIsTrackSwitchedOff/useIsTrackS
 import usePublications from '../../hooks/usePublications/usePublications';
 import useTrack from '../../hooks/useTrack/useTrack';
 import VideocamOff from '@material-ui/icons/VideocamOff';
+import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline';
 
 const useStyles = makeStyles({
   container: {
@@ -51,18 +52,27 @@ export default function MainParticipantInfo({ participant = {}, children }) {
   const videoTrack = useTrack(screenSharePublication || videoPublication);
   const isVideoSwitchedOff = useIsTrackSwitchedOff(videoTrack);
   return (
+   
     <div
       data-cy-main-participant
       className={clsx(classes.container, { [classes.isVideoSwitchedOff]: isVideoSwitchedOff })}
     >
+     
       <div className={classes.infoContainer}>
+     
         <h4 className={classes.identity}>
+        <ScopedCssBaseline>
           {participant.identity}
+          </ScopedCssBaseline>
           {!isVideoEnabled && <VideocamOff />}
         </h4>
+       
       </div>
+     
       {isVideoSwitchedOff && <BandwidthWarning />}
       {children}
     </div>
+    
+
   );
 }

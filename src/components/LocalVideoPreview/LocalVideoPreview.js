@@ -7,5 +7,7 @@ export default function LocalVideoPreview() {
 
   const videoTrack = localTracks.find(track => track.name.includes('camera'));
 
-  return videoTrack ? <VideoTrack track={videoTrack} isLocal /> : null;
+  return(
+    videoTrack ? <VideoTrack track={videoTrack} isLocal /> : null
+  );
 }

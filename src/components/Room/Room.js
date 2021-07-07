@@ -5,7 +5,7 @@ import MainParticipant from '../MainParticipant/MainParticipant';
 import Transcript from "../Transcript/Transcript";
 import useSymblContext from "../../hooks/useSymblContext/useSymblContext";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
+import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline';
 const Container = styled('div')(({ theme }) => ({
   position: 'relative',
   height: '100%',
@@ -24,10 +24,15 @@ const Container = styled('div')(({ theme }) => ({
 export default function Room() {
   const { isStarting } = useSymblContext();
   return (
-    <Container>
+    // <ScopedCssBaseline>
+ <Container>
       { isStarting ? <CircularProgress /> : undefined}
+      <ScopedCssBaseline>
       <ParticipantStrip />
+      </ScopedCssBaseline>
+     
       <MainParticipant />
     </Container>
+    // </ScopedCssBaseline>
   );
 }

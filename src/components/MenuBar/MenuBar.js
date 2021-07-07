@@ -13,6 +13,9 @@ import {Typography} from '@material-ui/core';
 import Menu from "./Menu/Menu";
 import LocalAudioLevelIndicator from "./DeviceSelector/LocalAudioLevelIndicator/LocalAudioLevelIndicator";
 import config from '../../config';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
+
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -38,15 +41,16 @@ const useStyles = makeStyles((theme) =>
       },
     },
     textField: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
+      marginLeft: theme.spacing(2),
+      marginRight: theme.spacing(2),
+      marginTop: theme.spacing(2),
       maxWidth: 200,
     },
     loadingSpinner: {
       marginLeft: '1em',
     },
     displayName: {
-      margin: '1.1em 0.6em',
+      margin: '2em 0.6em',
       minWidth: '200px',
       fontWeight: 600,
     },
@@ -92,6 +96,7 @@ export default function MenuBar() {
   return (
     <AppBar className={classes.container} position="static">
       <Toolbar className={classes.toolbar}>
+
         {roomState === 'disconnected' ? (
           <form className={classes.form} onSubmit={handleSubmit}>
             {window.location.search.includes('customIdentity=true') || !user?.displayName ? (
@@ -126,6 +131,7 @@ export default function MenuBar() {
               Join Room
             </Button>
               {(isConnecting || isFetching) && <CircularProgress className={classes.loadingSpinner} />}
+              <Menu />
           </form>
         ) : (
           <h3>{roomName}</h3>
@@ -134,7 +140,7 @@ export default function MenuBar() {
           {/*<FlipCameraButton />*/}
           <LocalAudioLevelIndicator />
           {/*<ToggleFullscreenButton />*/}
-          <Menu />
+          {/* <Menu /> */}
         </div>
       </Toolbar>
     </AppBar>
