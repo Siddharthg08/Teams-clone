@@ -58,7 +58,7 @@ const Chats = () => {
         })
     }, [user, history]);
 
-    if(!user || loading) return 'Loading.....'
+    if(!user || loading) return 'Loading....'
     return(
         <div className="chats-page">
             <div className="nav-bar">
