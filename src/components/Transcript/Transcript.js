@@ -15,6 +15,9 @@ import { useAuth } from '../../contexts/AuthContext';
 import axios from 'axios';
 import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline';
 import ChatVideo from '../Controls/ChatVideo/ChatVideo';
+import Fab from '@material-ui/core/Fab';
+import Tooltip from '@material-ui/core/Tooltip';
+import ChatIcon from '@material-ui/icons/Chat';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -59,13 +62,14 @@ const useStyles = makeStyles(() => ({
     transcriptsHeader: {
         display: "flex",
         justifyContent: "center",
-        paddingBottom: "20px"
+        paddingBottom: "20px",
+        position: "absolute",
     },
 
 
 }));
 
-export function TranscriptElement({onSave, width, height, editable = false, transcriptItems}) {
+export function TranscriptElement(props, {onSave, width, height, editable = false, transcriptItems}) {
 
     const classes = useStyles();
     const w = width;
@@ -88,7 +92,6 @@ export function TranscriptElement({onSave, width, height, editable = false, tran
     const history = useHistory();
     const {user} = useAuth();
     const [loading, setLoading] = useState(true);
-    const [showChat,setShowChat] = useState(false) ;
     
 
     const getFile = async (url) => {
@@ -140,20 +143,30 @@ export function TranscriptElement({onSave, width, height, editable = false, tran
 //             <Paper id={"transcript-paper"} className={classes.mainContainer}
 //                    variant={"outlined"}>
 <>
-{ showChat && <ChatEngine
-    projectID={process.env.REACT_APP_CHAT_ENGINE_ID}
-     userName={user.email}
-     userSecret={user.uid}
-     height='10vh'
-    
- />}
+
+
                     <div className={classes.mainContainer}>
-                                <ChatEngine
+              
+                        {/* <div className={classes.transcriptsHeader}></div> */}
+                     {/* <Tooltip onClick={()=>{setShowChat(!showChat)}} title={'Chat'}  placement="top"
+                 PopperProps={{disablePortal: true}}>
+            <Fab className={classes.fab} style={{backgroundColor: 'grey', color: 'white'}}>
+                <ChatIcon/>
+            </Fab>
+        </Tooltip> */}
+                 { <ChatEngine
+                            projectID={process.env.REACT_APP_CHAT_ENGINE_ID}
+                            userName={user.email}
+                            userSecret={user.uid}
+                            height="calc(100vh-66px)"
+                            
+                        />}
+                                {/* <ChatEngine
                                 height="calc(100vh-66px)"
                                 projectID={process.env.REACT_APP_CHAT_ENGINE_ID}
                                 userName={user.email}
                                 userSecret={user.uid}
-                                />
+                                /> */}
                                 </div>
                 
            </>

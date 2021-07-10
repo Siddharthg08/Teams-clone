@@ -39,13 +39,13 @@ export default function SettingsDialog({open, onClose}) {
     return (
         <Dialog open={open} onClose={onClose} classes={{paper: classes.paper}}>
             <Tabs value={selectedTab} onChange={handleChange}>
-                <Tab label="Credentials"/>
+                {/* <Tab label="Credentials"/> */}
                 <Tab label="Devices"/>
                 <Tab label="Settings"/>
             </Tabs>
-            <CredentialsOptions className={classes.container} hidden={selectedTab !== 0}/>
-            <DeviceSelector className={classes.container} hidden={selectedTab !== 1}/>
-            <ConnectionOptions className={classes.container} hidden={selectedTab !== 2}/>
+            {/* <CredentialsOptions className={classes.container} hidden={selectedTab !== 0}/> */}
+            <DeviceSelector className={classes.container} hidden={selectedTab !== 0}/>
+            <ConnectionOptions className={classes.container} hidden={selectedTab !== 1}/>
             <DialogActions>
                 <Button className={classes.button} onClick={onClose}>
                     Done

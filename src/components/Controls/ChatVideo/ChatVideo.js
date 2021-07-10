@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) =>
         },
     })
 );
-export default function ChatVideo() {
+export default function ChatVideo(props) {
     const classes = useStyles();
     const {room} = useVideoContext();
     const history = useHistory();
@@ -74,14 +74,14 @@ export default function ChatVideo() {
 
     return ( 
         <> 
-       { showChat && <ChatEngine
+       {/* { showChat && <ChatEngine
         		projectID={process.env.REACT_APP_CHAT_ENGINE_ID}
          		userName={user.email}
          		userSecret={user.uid}
          		height='10vh'
                 
-         	/>}
-        <Tooltip onClick={()=>{setShowChat(!showChat)}} title={'Chat'}  placement="top"
+         	/>} */}
+        <Tooltip onClick={()=>{ setShowChat(!showChat); props.onChangeShowChat(!showChat)}} title={'Chat'}  placement="top"
                  PopperProps={{disablePortal: true}}>
             <Fab className={classes.fab} style={{backgroundColor: 'grey', color: 'white'}}>
                 <ChatIcon/>

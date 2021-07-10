@@ -25,7 +25,7 @@ export default function MainParticipant() {
        is already being rendered in the <ParticipantStrip /> component.  */
     <MainParticipantInfo participant={mainParticipant}>
       <ParticipantTracks participant={mainParticipant} disableAudio enableScreenShare videoPriority={videoPriority} mainPariticipant={true}/>
-      <Transcript height={"100%"}/>
+      {/* <Transcript height={"100%"}/> */}
     </MainParticipantInfo>
   );
 }

@@ -61,11 +61,11 @@ code {
   width: 0; /* Remove scrollbar space */
   background: transparent; /* Optional: just make scrollbar invisible */
 }
-
+/* linear-gradient(#40a9ff, #096dd9) */
 /* Login Page */
 
 #login-page {
-  background-image: linear-gradient(#40a9ff, #096dd9);
+  background-image: black;
   position: absolute;
   top: 0px;
   bottom: 0px;

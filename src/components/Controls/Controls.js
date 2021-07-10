@@ -9,6 +9,9 @@ import useIsUserActive from './useIsUserActive/useIsUserActive';
 import useRoomState from '../../hooks/useRoomState/useRoomState';
 import ShareLinkButton from './ShareLinkButton/ShareLinkButton';
 import ChatVideo from './ChatVideo/ChatVideo';
+import { PropertySafetyFilled } from '@ant-design/icons';
+import Captions from './Captions/Captions';
+
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -36,7 +39,7 @@ const useStyles = makeStyles((theme) =>
     })
 );
 
-export default function Controls() {
+export default function Controls(props) {
     const classes = useStyles();
     const {roomState} = useRoomState();
     const isReconnecting = roomState === 'reconnecting';
@@ -52,7 +55,8 @@ export default function Controls() {
                     <ToggleScreenShareButton disabled={isReconnecting}/>
                     <EndCallButton/>
                     <ShareLinkButton/>
-                    <ChatVideo/>
+                    <ChatVideo onChangeShowChat={(showChat) => props.onChangeShowChat(showChat)}/>
+                    <Captions  onChangeShowCaptions={(showCaptions) => props.onChangeShowCaptions(showCaptions)}/>
                 </>
             )}
         </div>

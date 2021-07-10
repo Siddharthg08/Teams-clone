@@ -140,7 +140,7 @@ export default function MenuBar() {
           {/*<FlipCameraButton />*/}
           <LocalAudioLevelIndicator />
           {/*<ToggleFullscreenButton />*/}
-          {/* <Menu /> */}
+          <Menu />
         </div>
       </Toolbar>
     </AppBar>

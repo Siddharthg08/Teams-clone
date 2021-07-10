@@ -37,6 +37,9 @@ function App() {
     const [hasStarted, setHasStarted] = useState(false);
     const [isStarting, setIsStarting] = useState(false);
 
+    const [showChat, setShowChat] = useState(false);
+    const [showCaptions, setShowCaptions] = useState(false);
+
     useEffect(() => {
         if (roomState === 'disconnected' && !hasStarted && !isStarting) {
             if (!(roomName && userName) && (room && room.name && room.localParticipant && room.localParticipant.identity)) {
@@ -64,8 +67,13 @@ function App() {
                 {roomState === 'disconnected' ? <LocalVideoPreview/> : (
                     <SymblProvider roomName={roomName}>
                     <Room/>
-                        <ClosedCaptions />
-                        <Controls/>
+                        {/* <ClosedCaptions /> */}
+                            
+                        <Controls onChangeShowChat={(showChat) => { setShowChat(showChat)}}
+                                  onChangeShowCaptions={(showCaptions)=> {setShowCaptions(showCaptions)}}
+                        />
+                        { showChat ? <Transcript height={"100%"}/> : null }
+                        {showCaptions ? <ClosedCaptions/> : null}
                     </SymblProvider>
                 )}
             </Main>
